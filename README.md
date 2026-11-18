@@ -142,7 +142,7 @@ double-click does nothing without a default handler. See
 
 ## Version history
 
-**Unreleased** (build 9 on)
+**1.1.1**
 - Fix: never fold anything inside a paragraph. Wikipedia sets album titles as
   `<i><a>`, several to a paragraph, and a long replacement folded one mid-sentence
 - Fix: never fold Wikipedia's sticky header, which left a stub along the bottom of the article
