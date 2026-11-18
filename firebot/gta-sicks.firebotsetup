@@ -1,0 +1,66 @@
+{
+  "name": "GTA Sicks",
+  "description": "Hides chat messages mentioning GTA 6 from your Firebot chat feed and replaces them with the same message, renamed to something stupid and marked with guillemets, plus a line you can read out. Nothing is sent to Twitch and nothing is automated — chat sees exactly what was typed, only your feed changes.",
+  "author": "nb-Shafty",
+  "version": 1,
+  "importQuestions": [],
+  "requireCurrency": false,
+  "components": {
+    "commands": [],
+    "counters": [],
+    "currencies": [],
+    "effectQueues": [],
+    "events": [
+      {
+        "id": "7b3f1c40-6a21-4d55-9f2e-1c0a5d8e4b71",
+        "name": "GTA Sicks - rewrite mentions in the chat feed",
+        "active": true,
+        "cached": true,
+        "sortTags": [],
+        "eventId": "chat-message",
+        "sourceId": "twitch",
+        "filterData": {
+          "mode": "exclusive",
+          "filters": [
+            {
+              "type": "firebot:message-text",
+              "comparisonType": "matches regex (case insensitive)",
+              "value": "\\b[Gg][Tt][Aa]\\s*(6|[Vv][Ii])\\b|\\b[Gg][Rr][Aa][Nn][Dd]\\s+[Tt][Hh][Ee][Ff][Tt]\\s+[Aa][Uu][Tt][Oo]\\s*(6|[Vv][Ii]|[Ss][Ii][Xx])\\b"
+            }
+          ]
+        },
+        "effects": {
+          "id": "c1d8a94e-2f77-4a63-b0d5-9e6c3a1f8027",
+          "runMode": "all",
+          "list": [
+            {
+              "id": "f2a6b103-58cd-4e19-8a74-6b2d9c0e5314",
+              "type": "firebot:chat-feed-message-hide",
+              "active": true,
+              "percentWeight": null
+            },
+            {
+              "id": "a9c47e26-31bf-4d80-95e3-7f1a2b6c8d40",
+              "type": "firebot:chat-feed-alert",
+              "active": true,
+              "icon": "fad fa-exclamation-circle",
+              "message": "$evalJs[``\nconst md = metadata || {};\nconst ev = md.eventData || {};\nconst who = ev.userDisplayName || ev.username || md.username || \"someone\";\nconst msg = String(ev.messageText || md.messageText || \"\");\n\nconst names = (\n    \"Grand Theft Autumn|That Game That Isn't Out|Vapourware VI|The Trailer|A Rumour\"\n  + \"|Some Bloke's Miami Holiday|Big Car Steal 6|Perpetual Marketing Machine\"\n  + \"|Hypothetical Video Game Number Six|Extremely Delayed Auto\"\n  + \"|Guaranteed Theft Auto (Eventually)|Bicycle Acquisition Simulator\"\n  + \"|Rockstar's Pension Plan|Screenshot Discourse Generator\"\n  + \"|The Same Game With Better Puddles|The Second Trailer|Miami Slice\"\n  + \"|Pixel Water Appreciation Simulator|A Press Release\"\n  + \"|Sixth Automobile Misappropriation Incident|Great Car Borrow\"\n  + \"|Money Printer (Interactive Edition)|Wanted Level: Six|Absolutely Nothing\"\n  + \"|The Announcement Of An Announcement|Larceny Motors 6\"\n  + \"|Very Large Purloining Of Vehicles|Digital Sunshine State Crime Holiday\"\n  + \"|Modest Theft Auto|Petty Theft Bicycle|Some Cars, Some Crime, Some Day\"\n  + \"|Please Stop Talking About This|The Discourse|Beach Simulator With Guns\"\n  + \"|Yet Another Trailer Breakdown|Auto Theft: Extremely Grand\"\n  + \"|The One With The Alligator|Delay Simulator 2026|Enormous Vehicle Borrowing VI\"\n  + \"|A Number You've Heard Enough Of|Considerable Motorcar Theft\"\n  + \"|Sixty Articles About Nothing|Rather Rude Driving Game|The Cursed Numeral\"\n  + \"|An Unreleased Thing|Loud Florida Crime Playset|Preorder Anxiety Simulator\"\n  + \"|Big Naughty Car Game|Whatever, Honestly|Two Trailers And A Prayer\"\n).split(\"|\");\nconst pick = names[Math.floor(Math.random() * names.length)];\n\nconst re = /\\bgta\\s*(?:6|vi)\\b|\\bgrand\\s+theft\\s+auto\\s*(?:6|vi|six)\\b/gi;\n// No dollar signs anywhere below, deliberately: Firebot reads one as the start\n// of a replace-variable even inside this code block, so an end-anchored regex\n// would break the whole field. Hence string comparisons, not anchored regexes.\nconst clean = msg.replace(re, function (hit, offset, whole) {\n  const before = whole.slice(Math.max(0, offset - 5), offset);\n  const low = before.toLowerCase();\n  const prev = low.charAt(low.length - 5);\n  let p = pick;\n  if (before.charAt(before.length - 1) === \"#\") {\n    // \"#GTA6\" reads better as one word, same as the extension does it.\n    p = p.replace(/[^A-Za-z0-9]/g, \"\");\n  } else if (low.slice(-4) === \"the \" && (prev === \"\" || !/[a-z]/i.test(prev))\n             && p.slice(0, 4).toLowerCase() === \"the \") {\n    // \"the GTA 6 trailer\" must not become \"the The Trailer trailer\".\n    p = p.slice(4);\n  }\n  return \"\\u00ab\" + p + \"\\u00bb\";\n});\n\n// If the filter let something through that never named it, don't invent a retort.\nif (clean === msg) { return who + \": \" + msg; }\n\nconst replies = (\n    \"Ah yes, {name}. My favourite.|Still not out. Anyway.\"\n  + \"|I built a browser extension so I would never have to read that. Genuinely.\"\n  + \"|That one is banned from my eyeballs, sorry.\"\n  + \"|Cannot hear you, you said the number.|{name}, yes. Tremendous. Moving on.\"\n  + \"|I have no notes on {name}. None at all.\"\n  + \"|You will have to take that up with my extension.\"\n  + \"|New rule: we call it {name} now.\"\n  + \"|I am contractually required to say {name} instead.\"\n  + \"|Sorry, my chat has a filter and you tripped it.\"\n  + \"|Ten out of ten for {name}. Next.\"\n  + \"|That word costs a pound. Add it to the tab.\"\n  + \"|I have been hearing about that since I had a different face.\"\n  + \"|Do you know what else is coming out eventually? Everything.\"\n  + \"|{name} looks great. I have not seen it. Nobody has.\"\n  + \"|Ah, the November thing. Sure.\"\n  + \"|Rockstar are doing fine, they do not need our help.\"\n  + \"|I will believe it when I am holding it.\"\n  + \"|That is a rumour wearing a trailer as a hat.\"\n  + \"|Every time someone says it, the date moves.\"\n  + \"|You have activated my one piece of software.\"\n  + \"|Yes. {name}. Astonishing. Truly.\"\n  + \"|I have muted that phrase in every application I own.\"\n  + \"|Say it again and it gets delayed another year.\"\n  + \"|The map is big, the puddles are wet, we are done here.\"\n  + \"|Genuinely cannot get excited about a press release.\"\n  + \"|That is a lovely thing to say about {name}.\"\n  + \"|Six is just five with ambition.|I refuse. Politely, but I refuse.\"\n  + \"|You are describing a video I have not watched.\"\n  + \"|Give me one fact about it that is not from a trailer.\"\n  + \"|Consider instead: any game that exists today.\"\n  + \"|{name} is the only name I recognise.|This household says {name} now.\"\n  + \"|That is between you and Rockstar.|Absolutely no thoughts. Head empty.\"\n  + \"|I have made peace with never knowing.\"\n  + \"|Hard to be hyped about a countdown to a countdown.\"\n  + \"|I ran out of opinions about that in 2023.\"\n).split(\"|\");\n// split/join rather than replace: a replacement string containing a dollar sign\n// would be treated as a capture-group reference.\nconst reply = replies[Math.floor(Math.random() * replies.length)].split(\"{name}\").join(pick);\n\nreturn who + \": \" + clean + \"   -> SAY: \" + reply;\n``]",
+              "percentWeight": null
+            }
+          ]
+        }
+      }
+    ],
+    "eventGroups": [],
+    "hotkeys": [],
+    "presetEffectLists": [],
+    "timers": [],
+    "scheduledTasks": [],
+    "variableMacros": [],
+    "viewerRoles": [],
+    "viewerRankLadders": [],
+    "quickActions": [],
+    "overlayWidgetConfigs": [],
+    "globalValues": []
+  }
+}

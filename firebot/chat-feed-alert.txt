@@ -1,0 +1,95 @@
+$evalJs[``
+const md = metadata || {};
+const ev = md.eventData || {};
+const who = ev.userDisplayName || ev.username || md.username || "someone";
+const msg = String(ev.messageText || md.messageText || "");
+
+const names = (
+    "Grand Theft Autumn|That Game That Isn't Out|Vapourware VI|The Trailer|A Rumour"
+  + "|Some Bloke's Miami Holiday|Big Car Steal 6|Perpetual Marketing Machine"
+  + "|Hypothetical Video Game Number Six|Extremely Delayed Auto"
+  + "|Guaranteed Theft Auto (Eventually)|Bicycle Acquisition Simulator"
+  + "|Rockstar's Pension Plan|Screenshot Discourse Generator"
+  + "|The Same Game With Better Puddles|The Second Trailer|Miami Slice"
+  + "|Pixel Water Appreciation Simulator|A Press Release"
+  + "|Sixth Automobile Misappropriation Incident|Great Car Borrow"
+  + "|Money Printer (Interactive Edition)|Wanted Level: Six|Absolutely Nothing"
+  + "|The Announcement Of An Announcement|Larceny Motors 6"
+  + "|Very Large Purloining Of Vehicles|Digital Sunshine State Crime Holiday"
+  + "|Modest Theft Auto|Petty Theft Bicycle|Some Cars, Some Crime, Some Day"
+  + "|Please Stop Talking About This|The Discourse|Beach Simulator With Guns"
+  + "|Yet Another Trailer Breakdown|Auto Theft: Extremely Grand"
+  + "|The One With The Alligator|Delay Simulator 2026|Enormous Vehicle Borrowing VI"
+  + "|A Number You've Heard Enough Of|Considerable Motorcar Theft"
+  + "|Sixty Articles About Nothing|Rather Rude Driving Game|The Cursed Numeral"
+  + "|An Unreleased Thing|Loud Florida Crime Playset|Preorder Anxiety Simulator"
+  + "|Big Naughty Car Game|Whatever, Honestly|Two Trailers And A Prayer"
+).split("|");
+const pick = names[Math.floor(Math.random() * names.length)];
+
+const re = /\bgta\s*(?:6|vi)\b|\bgrand\s+theft\s+auto\s*(?:6|vi|six)\b/gi;
+// No dollar signs anywhere below, deliberately: Firebot reads one as the start
+// of a replace-variable even inside this code block, so an end-anchored regex
+// would break the whole field. Hence string comparisons, not anchored regexes.
+const clean = msg.replace(re, function (hit, offset, whole) {
+  const before = whole.slice(Math.max(0, offset - 5), offset);
+  const low = before.toLowerCase();
+  const prev = low.charAt(low.length - 5);
+  let p = pick;
+  if (before.charAt(before.length - 1) === "#") {
+    // "#GTA6" reads better as one word, same as the extension does it.
+    p = p.replace(/[^A-Za-z0-9]/g, "");
+  } else if (low.slice(-4) === "the " && (prev === "" || !/[a-z]/i.test(prev))
+             && p.slice(0, 4).toLowerCase() === "the ") {
+    // "the GTA 6 trailer" must not become "the The Trailer trailer".
+    p = p.slice(4);
+  }
+  return "\u00ab" + p + "\u00bb";
+});
+
+// If the filter let something through that never named it, don't invent a retort.
+if (clean === msg) { return who + ": " + msg; }
+
+const replies = (
+    "Ah yes, {name}. My favourite.|Still not out. Anyway."
+  + "|I built a browser extension so I would never have to read that. Genuinely."
+  + "|That one is banned from my eyeballs, sorry."
+  + "|Cannot hear you, you said the number.|{name}, yes. Tremendous. Moving on."
+  + "|I have no notes on {name}. None at all."
+  + "|You will have to take that up with my extension."
+  + "|New rule: we call it {name} now."
+  + "|I am contractually required to say {name} instead."
+  + "|Sorry, my chat has a filter and you tripped it."
+  + "|Ten out of ten for {name}. Next."
+  + "|That word costs a pound. Add it to the tab."
+  + "|I have been hearing about that since I had a different face."
+  + "|Do you know what else is coming out eventually? Everything."
+  + "|{name} looks great. I have not seen it. Nobody has."
+  + "|Ah, the November thing. Sure."
+  + "|Rockstar are doing fine, they do not need our help."
+  + "|I will believe it when I am holding it."
+  + "|That is a rumour wearing a trailer as a hat."
+  + "|Every time someone says it, the date moves."
+  + "|You have activated my one piece of software."
+  + "|Yes. {name}. Astonishing. Truly."
+  + "|I have muted that phrase in every application I own."
+  + "|Say it again and it gets delayed another year."
+  + "|The map is big, the puddles are wet, we are done here."
+  + "|Genuinely cannot get excited about a press release."
+  + "|That is a lovely thing to say about {name}."
+  + "|Six is just five with ambition.|I refuse. Politely, but I refuse."
+  + "|You are describing a video I have not watched."
+  + "|Give me one fact about it that is not from a trailer."
+  + "|Consider instead: any game that exists today."
+  + "|{name} is the only name I recognise.|This household says {name} now."
+  + "|That is between you and Rockstar.|Absolutely no thoughts. Head empty."
+  + "|I have made peace with never knowing."
+  + "|Hard to be hyped about a countdown to a countdown."
+  + "|I ran out of opinions about that in 2023."
+).split("|");
+// split/join rather than replace: a replacement string containing a dollar sign
+// would be treated as a capture-group reference.
+const reply = replies[Math.floor(Math.random() * replies.length)].split("{name}").join(pick);
+
+return who + ": " + clean + "   -> SAY: " + reply;
+``]

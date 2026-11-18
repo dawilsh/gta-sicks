@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>GTA 6 hands-on: everything we know about Grand Theft Auto VI</title>
+<style>
+  body { font: 15px/1.6 system-ui, sans-serif; max-width: 760px; margin: 30px auto; padding: 0 20px; color: #14161a; }
+  h1 { font-size: 24px; }
+  .card { border: 1px solid #ddd; border-radius: 8px; padding: 12px 16px; margin: 14px 0; }
+  code { background: #f2f2f2; padding: 1px 5px; border-radius: 4px; }
+  .ok { color: #1f9d55; font-weight: 600; }
+  .bad { color: #d33; font-weight: 600; }
+  #results td { padding: 3px 10px 3px 0; vertical-align: top; }
+</style>
+
+<!-- Stand in for the extension APIs so content.js runs unmodified in a plain page. -->
+<script>
+  window.__sosSettings = {};   // tweak before load to simulate stored settings
+  var __listeners = [];
+  window.chrome = {
+    storage: {
+      sync: { get: function (d, cb) { cb(Object.assign({}, d, window.__sosSettings)); }, set: function () {} },
+      local: { get: function (d, cb) { cb(d); }, set: function () {} },
+      onChanged: { addListener: function (fn) { __listeners.push(fn); } }
+    },
+    runtime: { lastError: null, onMessage: { addListener: function () {} } }
+  };
+  // Simulates the user flipping a switch in the popup.
+  window.__sosSet = function (patch) {
+    Object.assign(window.__sosSettings, patch);
+    __listeners.forEach(function (fn) { fn({}, 'sync'); });
+  };
+</script>
+<script src="../src/lib/defaults.js"></script>
+<script src="../src/lib/engine.js"></script>
+<script src="../src/content.js"></script>
+</head>
+<body>
+
+<h1>GTA 6 hands-on: everything we know about Grand Theft Auto VI</h1>
+
+<p>Rockstar has confirmed that <b>GTA VI</b> slips again. Fans dissecting the gta6 trailer
+frame by frame say the water in <span>Grand Theft Auto 6</span> looks incredible.
+Meanwhile #GTAVI trended for nine hours.</p>
+
+<div class="card">
+  <p><b>Should stay untouched:</b> GTA V is still great, GTA Vice City was better,
+  and there are GTA 60 cars in the list. Also: gtav, GTA IV, Auto VI Parts Ltd.</p>
+</div>
+
+<div class="card">
+  <p>Tooltip test: <span id="tip" title="The GTA 6 map is enormous">hover me</span></p>
+  <p>Image alt test: <img id="pic" alt="Screenshot from GTA VI" width="1" height="1"
+      src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="></p>
+  <p>Input placeholder: <input id="ph" placeholder="Search GTA VI news"></p>
+</div>
+
+<div class="card">
+  <p><b>Must never be rewritten</b> (you are typing here):</p>
+  <div contenteditable="true" style="border:1px solid #ccc; padding:8px">I am typing about GTA 6 right now.</div>
+  <p><textarea rows="2" style="width:100%">Draft: my GTA VI review</textarea></p>
+  <p data-sos-skip>Opted out with data-sos-skip: GTA 6 stays here.</p>
+</div>
+
+<div class="card" id="collapsecard">
+  <p><b>Collapsing whole items</b> &mdash; a feed of four sibling cards, one of which is about it:</p>
+  <div id="feed">
+    <div class="feeditem"><h3>Half-Life 3 finally dated</h3><p>Valve confirms a November release window after years of silence from the studio.</p></div>
+    <div class="feeditem" id="badnews"><h3>Rockstar issues statement on GTA 6 leaks</h3><p>The studio called the leaked Grand Theft Auto VI footage heartbreaking and asked fans not to share it.</p></div>
+    <div class="feeditem"><h3>Elden Ring sells another million</h3><p>FromSoftware's action RPG continues to chart three years after launch.</p></div>
+    <div class="feeditem"><h3>Steam Deck 2 rumours resurface</h3><p>A new filing hints at refreshed hardware, though Valve has said nothing publicly.</p></div>
+  </div>
+  <p id="prose">Standalone prose, not part of any list: I have opened this page deliberately to read about GTA 6, so it should be renamed but never folded away.</p>
+</div>
+
+<div class="card" id="runcard">
+  <p><b>Folding a run</b> &mdash; two items about it in a row share one stub:</p>
+  <div id="runfeed">
+    <div class="feeditem"><h3>Indie roguelike tops the weekly chart</h3><p>A two-person studio outsold three big releases in its first week on sale.</p></div>
+    <div class="feeditem" id="run1"><h3>Rockstar issues statement on GTA 6 preload sizes</h3><p>The studio says the download will need more space than anyone expected it to.</p></div>
+    <div class="feeditem" id="run2"><h3>Ten things we spotted in the GTA VI launch trailer</h3><p>Frame by frame, every street sign and storefront, all over again this week.</p></div>
+    <div class="feeditem"><h3>Speedrunner breaks a ten-year-old record</h3><p>The new route skips an entire chapter with a single well-timed jump at the start.</p></div>
+  </div>
+</div>
+
+<div class="card" id="chatcard">
+  <p><b>Live chat</b> (must be renamed but never folded):</p>
+  <div role="log" id="chatlog">
+    <div class="chat-line__message">viewer1: anyone else hyped for GTA 6</div>
+    <div class="chat-line__message">viewer2: the GTA VI trailer was insane, 90 million views in a day honestly</div>
+    <div class="chat-line__message">viewer3: unrelated message about the stream setup and the new microphone</div>
+    <div class="chat-line__message">viewer4: another unrelated one, what game is this we are playing today</div>
+  </div>
+</div>
+
+<div class="card" id="inlinecard">
+  <p><b>Titles in running text</b> (how Wikipedia sets album and game names; renamed, never folded):</p>
+  <p id="inlineprose">The soundtrack came out as <i id="inl1"><a href="#">Grand Theft Auto VI: The Official Soundtrack, Volume One</a></i>, after
+  <i><a href="#">Red Dead Redemption 2: The Original Score, Volume One</a></i> and
+  <i><a href="#">Max Payne 3: The Original Soundtrack, Deluxe Edition</a></i> before it.</p>
+</div>
+
+<div class="vector-sticky-header-container" id="sticky">
+  <div><a href="#">Grand Theft Auto VI</a> <span>a sticky page header that repeats the article title on scroll</span></div>
+</div>
+
+<div class="card" id="shadowcard">
+  <p><b>Shadow DOM</b> (how Reddit builds its UI):</p>
+  <sos-widget id="sw1"></sos-widget>
+  <sos-widget id="sw2"></sos-widget>
+</div>
+
+<div class="card" id="split">
+  <p><b>Split across text nodes</b> (how Wikipedia writes titles):</p>
+  <p id="s1">Wikipedia style: <i>Grand Theft Auto<span>&nbsp;</span>VI</i> was announced.</p>
+  <p id="s2">Bold acronym: <b>GTA</b> 6 in a sentence.</p>
+  <p id="s3">Must stay: <i>Grand Theft Auto<span>&nbsp;</span>V</i> was 2013.</p>
+  <p id="s4">No joining across blocks: <span>Grand Theft Auto</span></p>
+  <p id="s5">VI starts a new paragraph.</p>
+</div>
+
+<div class="card" id="late"><em>Waiting for dynamically inserted content…</em></div>
+
+<script>
+class SosWidget extends HTMLElement {
+  connectedCallback() {
+    const build = () => {
+      const r = this.attachShadow({ mode: 'open' });
+      r.innerHTML = '<p>Inside shadow DOM: GTA 6 and <i>Grand Theft Auto<span>&nbsp;</span>VI</i> ' +
+                    '<span title="A GTA VI tooltip">tooltip host</span></p>';
+    };
+    if (this.id === 'sw2') setTimeout(build, 1500); else build();   // sw2 upgrades late
+  }
+}
+customElements.define('sos-widget', SosWidget);
+</script>
+
+<h2>Self-check</h2>
+<table id="results"></table>
+
+<script>
+// Simulate a site that renders content after load (React, infinite scroll, etc).
+setTimeout(function () {
+  var late = document.getElementById('late');
+  late.innerHTML = '<p><b>Injected 400ms after load:</b> the GTA 6 release date leaked again, ' +
+                   'and Grand Theft Auto VI preorders open soon.</p>';
+  var extra = document.createElement('p');
+  extra.textContent = 'Appended node: GTA VI is all anyone talks about.';
+  late.appendChild(extra);
+}, 400);
+
+// Report what happened.
+setTimeout(function () {
+  var body = document.body.innerText;
+  var checks = [
+    ['Headline rewritten',            !/GTA 6|Grand Theft Auto VI/.test(document.querySelector('h1').textContent)],
+    ['Tab title rewritten',           !/GTA 6|Grand Theft Auto VI/.test(document.title)],
+    ['Inline mentions rewritten',     !/\bgta6\b/i.test(document.querySelector('p').textContent)],
+    ['GTA V left alone',              /GTA V is still great/.test(body)],
+    ['GTA Vice City left alone',      /GTA Vice City was better/.test(body)],
+    ['GTA 60 left alone',             /GTA 60 cars/.test(body)],
+    ['title attribute rewritten',     !/GTA 6/.test(document.getElementById('tip').title)],
+    ['alt attribute rewritten',       !/GTA VI/.test(document.getElementById('pic').alt)],
+    ['placeholder rewritten',         !/GTA VI/.test(document.getElementById('ph').placeholder)],
+    ['contenteditable untouched',     /GTA 6 right now/.test(document.querySelector('[contenteditable]').textContent)],
+    ['textarea untouched',            /GTA VI review/.test(document.querySelector('textarea').value)],
+    ['data-sos-skip honoured',        /GTA 6 stays here/.test(document.querySelector('[data-sos-skip]').textContent)],
+    ['late innerHTML rewritten',      !/GTA 6|Grand Theft Auto VI/.test(document.getElementById('late').textContent)],
+    ['appended node rewritten',       !/GTA VI is all anyone/.test(document.getElementById('late').textContent)],
+    ['split: nbsp span joined',      !/Grand Theft Auto\s*VI/.test(document.getElementById('s1').innerText)],
+    ['split: bold acronym joined',   !/GTA\s*6/.test(document.getElementById('s2').innerText)],
+    ['split: GTA V still left alone', /Grand Theft Auto\s*V\b/.test(document.getElementById('s3').innerText)],
+    ['split: no join across blocks', /Grand Theft Auto$/.test(document.getElementById('s4').innerText.trim())],
+    ['shadow: root text rewritten',  !/GTA\s*6/.test(document.getElementById('sw1').shadowRoot.textContent)],
+    ['shadow: split node joined',    !/Grand Theft Auto\s*VI/.test(document.getElementById('sw1').shadowRoot.textContent)],
+    ['shadow: attribute rewritten',  !/GTA\s*VI/.test(document.getElementById('sw1').shadowRoot.querySelector('[title]').title)],
+    ['collapse: card folded to stub', (function () {
+        var bad = document.getElementById('badnews');
+        return getComputedStyle(bad).display === 'none' &&
+               /skipped/.test(bad.previousElementSibling.textContent);
+      })()],
+    ['collapse: siblings untouched',  (function () {
+        var items = document.querySelectorAll('#feed .feeditem');
+        var visible = [...items].filter(function (i) { return getComputedStyle(i).display !== 'none'; });
+        return visible.length === 3;
+      })()],
+    ['collapse: prose renamed not folded', (function () {
+        var p = document.getElementById('prose');
+        return getComputedStyle(p).display !== 'none' && !/GTA\s*6/.test(p.innerText);
+      })()],
+    ['collapse: show button restores', (function () {
+        var bad = document.getElementById('badnews');
+        var stub = bad.previousElementSibling;
+        var btn = stub && stub.querySelector('button');
+        if (!btn) return false;
+        btn.click();
+        return getComputedStyle(bad).display !== 'none' &&
+               !document.querySelector('#feed [data-sos-skip]');
+      })()],
+    ['collapse: a run shares one stub', (function () {
+        var stubs = document.querySelectorAll('#runfeed [data-sos-skip]');
+        return stubs.length === 1 &&
+               getComputedStyle(document.getElementById('run1')).display === 'none' &&
+               getComputedStyle(document.getElementById('run2')).display === 'none';
+      })()],
+    ['collapse: show opens the whole run', (function () {
+        var btn = document.querySelector('#runfeed [data-sos-skip] button');
+        if (!btn) return false;
+        btn.click();
+        return getComputedStyle(document.getElementById('run1')).display !== 'none' &&
+               getComputedStyle(document.getElementById('run2')).display !== 'none' &&
+               !document.querySelector('#runfeed [data-sos-skip]');
+      })()],
+    ['chat: renamed', !/GTA\s*6/.test(document.getElementById('chatlog').innerText)],
+    ['chat: never folded', (function () {
+        var lines = document.querySelectorAll('#chatlog .chat-line__message');
+        var visible = [...lines].filter(function (l) { return getComputedStyle(l).display !== 'none'; });
+        return visible.length === 4 && !document.querySelector('#chatlog [data-sos-skip]');
+      })()],
+    ['inline title renamed not folded', (function () {
+        var p = document.getElementById('inlineprose');
+        return !/GTA\s*VI|Grand Theft Auto VI/.test(p.innerText) &&
+               getComputedStyle(document.getElementById('inl1')).display !== 'none' &&
+               !p.querySelector('[data-sos-skip]');
+      })()],
+    ['sticky header never folded', (function () {
+        var h = document.getElementById('sticky');
+        return getComputedStyle(h).display !== 'none' &&
+               !(h.previousElementSibling && h.previousElementSibling.hasAttribute('data-sos-skip'));
+      })()],
+    ['title and headline agree',      document.title === document.querySelector('h1').textContent],
+    ['no doubled article',            !/\bthe the\b/i.test(body)],
+    ['hashtag stays one word',        /#[A-Za-z0-9]+ trended for nine hours/.test(body)],
+    ['one name used consistently',    (function () {
+        // The page mentions it 6 times in body text; in "one per page" mode they should all match.
+        var h1 = document.querySelector('h1').textContent;
+        var name = h1.slice(0, h1.indexOf(' hands-on'));
+        return name.length > 3 &&
+          document.getElementById('late').textContent.indexOf(name) !== -1;
+      })()]
+  ];
+  var rows = checks.map(function (c) {
+    return '<tr><td>' + (c[1] ? '<span class="ok">PASS</span>' : '<span class="bad">FAIL</span>') +
+           '</td><td>' + c[0] + '</td></tr>';
+  }).join('');
+  var failed = checks.filter(function (c) { return !c[1]; }).length;
+  document.getElementById('results').innerHTML = rows +
+    '<tr><td></td><td><b>' + (failed ? failed + ' failing' : 'all ' + checks.length + ' passing') + '</b></td></tr>';
+
+  // Second phase: switching it off must restore the page in place, and
+  // switching it back on must rewrite it again — no reload in either direction.
+  var originalH1 = 'GTA 6 hands-on: everything we know about Grand Theft Auto VI';
+  window.__sosSet({ enabled: false });
+  setTimeout(function () {
+    var restoredH1 = document.querySelector('h1').textContent === originalH1;
+    var restoredTitle = document.title === originalH1;
+    var restoredLate = /GTA 6 release date leaked/.test(document.getElementById('late').textContent);
+    var restoredAttr = document.getElementById('tip').title === 'The GTA 6 map is enormous';
+
+    window.__sosSet({ enabled: true });
+    setTimeout(function () {
+      var reH1 = document.querySelector('h1').textContent !== originalH1;
+      var phase2 = [
+        ['off: headline restored', restoredH1],
+        ['off: tab title restored', restoredTitle],
+        ['off: injected content restored', restoredLate],
+        ['off: attributes restored', restoredAttr],
+        ['back on: rewritten again', reH1]
+      ];
+      var f2 = phase2.filter(function (c) { return !c[1]; }).length;
+      document.getElementById('results').innerHTML += phase2.map(function (c) {
+        return '<tr><td>' + (c[1] ? '<span class="ok">PASS</span>' : '<span class="bad">FAIL</span>') +
+               '</td><td>' + c[0] + '</td></tr>';
+      }).join('') + '<tr><td></td><td><b>toggle: ' +
+        (f2 ? f2 + ' failing' : 'all ' + phase2.length + ' passing') + '</b></td></tr>';
+
+      // Phase 3: sw2 attaches its shadow root 1.5s in, long after the initial
+      // walk. Only the delayed sweeps can catch it.
+      setTimeout(function () {
+        var late = document.getElementById('sw2').shadowRoot;
+        var ok = late && !/GTA\s*6|Grand Theft Auto\s*VI/.test(late.textContent);
+        document.getElementById('results').innerHTML +=
+          '<tr><td>' + (ok ? '<span class="ok">PASS</span>' : '<span class="bad">FAIL</span>') +
+          '</td><td>late shadow root swept</td></tr>';
+      }, 4200);
+    }, 250);
+  }, 250);
+}, 900);
+</script>
+</body>
+</html>

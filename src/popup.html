@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>GTA Sicks</title>
+  <link rel="stylesheet" href="ui.css">
+</head>
+<body class="popup">
+  <header class="pop-head">
+    <div class="mark" aria-hidden="true"></div>
+    <div>
+      <h1>GTA Sicks</h1>
+      <p class="sub" id="tagline">Loading…</p>
+    </div>
+  </header>
+
+  <div class="row">
+    <label class="switch">
+      <input type="checkbox" id="enabled">
+      <span class="track"><span class="thumb"></span></span>
+      <span class="switch-label">Enabled everywhere</span>
+    </label>
+  </div>
+
+  <div class="row">
+    <label class="switch">
+      <input type="checkbox" id="siteOn">
+      <span class="track"><span class="thumb"></span></span>
+      <span class="switch-label">Active on <b id="host">this site</b></span>
+    </label>
+  </div>
+
+  <div class="row stack">
+    <span class="field-label">Replacement</span>
+    <div class="seg" role="radiogroup" aria-label="Replacement mode">
+      <button type="button" class="seg-btn" data-mode="random">Random</button>
+      <button type="button" class="seg-btn" data-mode="custom">My phrase</button>
+    </div>
+    <input type="text" id="customText" class="text-input hidden" placeholder="e.g. The Trailer" maxlength="120">
+  </div>
+
+  <div class="row stack">
+    <span class="field-label">Variety</span>
+    <div class="seg" role="radiogroup" aria-label="Variety">
+      <button type="button" class="seg-btn" data-variety="page">One per page</button>
+      <button type="button" class="seg-btn" data-variety="chaos">Chaos</button>
+    </div>
+  </div>
+
+  <div class="row">
+    <label class="switch">
+      <input type="checkbox" id="collapse">
+      <span class="track"><span class="thumb"></span></span>
+      <span class="switch-label">Fold whole posts away</span>
+    </label>
+  </div>
+
+  <div class="tally" id="tally">—</div>
+
+  <footer class="pop-foot">
+    <button type="button" id="openOptions" class="link-btn">Settings &amp; phrase list</button>
+    <span class="hint" id="hint"></span>
+  </footer>
+
+  <script src="lib/defaults.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>
