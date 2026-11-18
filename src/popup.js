@@ -114,9 +114,19 @@
         }
         if (!res.running) { el.tally.textContent = 'Quiet on this page'; return; }
         if (!res.hits) { el.tally.textContent = 'Nothing to fix on this page. Yet.'; return; }
-        var parts = ['<b>' + res.hits + '</b> mention' + (res.hits === 1 ? '' : 's')];
-        if (res.collapsed) parts.push('<b>' + res.collapsed + '</b> post' + (res.collapsed === 1 ? '' : 's') + ' folded');
-        el.tally.innerHTML = parts.join(' · ') + ' here';
+        el.tally.textContent = '';
+        var addCount = function (n, word, tail) {
+          var b = document.createElement('b');
+          b.textContent = n;
+          el.tally.appendChild(b);
+          el.tally.appendChild(document.createTextNode(' ' + word + (n === 1 ? '' : 's') + tail));
+        };
+        addCount(res.hits, 'mention', '');
+        if (res.collapsed) {
+          el.tally.appendChild(document.createTextNode(' · '));
+          addCount(res.collapsed, 'post', ' folded');
+        }
+        el.tally.appendChild(document.createTextNode(' here'));
       });
     });
   }

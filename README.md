@@ -142,6 +142,11 @@ double-click does nothing without a default handler. See
 
 ## Version history
 
+**1.1.3**
+- The popup tally and the options preview are built from DOM nodes instead of
+  innerHTML. The text was already escaped, but the Firefox add-ons validator
+  flags any innerHTML assignment.
+
 **1.1.2**
 - The game is out. Ten phrases and nine Firebot lines that assumed it wasn't
   are replaced, and so is "forthcoming" in the description

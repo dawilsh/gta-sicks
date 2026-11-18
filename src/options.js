@@ -40,30 +40,36 @@
     });
   }
 
-  function escapeHtml(s) {
-    return s.replace(/[&<>"]/g, function (c) {
-      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
-    });
-  }
-
   function renderPreview() {
     var live = collect();
     var rewriter = new SosRewriter(live);
     var re = sosPattern(live);
-    var html = SAMPLES.map(function (line) {
+    el.preview.textContent = '';
+    SAMPLES.forEach(function (line) {
+      var div = document.createElement('div');
+      var last = 0, m;
       re.lastIndex = 0;
-      var out = escapeHtml(line).replace(re, function (m) {
-        var phrase = rewriter.pick(m);
-        if (!phrase) return m;
-        return '<del>' + m + '</del> → <ins>' + escapeHtml(sosMatchCase(m, phrase)) + '</ins>';
-      });
-      return '<div>' + out + '</div>';
-    }).join('');
-    el.preview.innerHTML = html;
+      while ((m = re.exec(line))) {
+        if (!m[0]) { re.lastIndex++; continue; }
+        var phrase = rewriter.pick(m[0]);
+        if (!phrase) continue;
+        div.appendChild(document.createTextNode(line.slice(last, m.index)));
+        var del = document.createElement('del');
+        del.textContent = m[0];
+        var ins = document.createElement('ins');
+        ins.textContent = sosMatchCase(m[0], phrase);
+        div.appendChild(del);
+        div.appendChild(document.createTextNode(' → '));
+        div.appendChild(ins);
+        last = m.index + m[0].length;
+      }
+      div.appendChild(document.createTextNode(line.slice(last)));
+      el.preview.appendChild(div);
+    });
   }
 
   function renderSites() {
-    el.sites.innerHTML = '';
+    el.sites.textContent = '';
     if (!settings.disabledSites.length) {
       var li = document.createElement('li');
       li.className = 'empty';
