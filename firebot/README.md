@@ -9,7 +9,7 @@ Nothing is sent to Twitch. Nothing is automated. Chat sees exactly what they typ
 this only changes what's in front of you.
 
 ```
-Dave: new trailer for «Whatever, Honestly» looks awesome!   -> SAY: Still not out. Anyway.
+Dave: new trailer for «Whatever, Honestly» looks awesome!   -> SAY: Out now. Still not interested.
 ```
 
 This needs no fork and no custom scripts. It's three stock Firebot features wired

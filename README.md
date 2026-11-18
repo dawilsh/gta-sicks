@@ -1,7 +1,7 @@
 # GTA Sicks
 
-A browser extension that quietly renames a certain forthcoming crime game wherever it
-appears — headlines, article bodies, tooltips, image descriptions and the tab title —
+A browser extension that quietly renames a certain crime game everyone won't stop talking about,
+wherever it appears — headlines, article bodies, tooltips, image descriptions and the tab title —
 so you can read the internet again.
 
 > Rockstar confirms ~~GTA 6~~ **Perpetual Marketing Machine** has slipped to next year
@@ -141,6 +141,10 @@ double-click does nothing without a default handler. See
 [firebot/README.md](firebot/README.md) for the details and a manual build.
 
 ## Version history
+
+**1.1.2**
+- The game is out. Ten phrases and nine Firebot lines that assumed it wasn't
+  are replaced, and so is "forthcoming" in the description
 
 **1.1.1**
 - Fix: never fold anything inside a paragraph. Wikipedia sets album titles as
